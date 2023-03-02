@@ -6,8 +6,7 @@ const plus = document.querySelector(".plus"),
   parent = document.querySelector(".parent"),
   main = document.querySelector(".cards");
 // ,
-// edit = document.querySelector('.edit'),
-// remove = document.querySelector('.remove')
+
 let allTodo = [];
 plus.onclick = () => {
   plus.classList.toggle(`Hidden`);
@@ -19,17 +18,49 @@ function getAll() {
     main.innerHTML = "";
     for (let index = 0; index < allToDo.length; index++) {
       const card = document.createElement("div");
+      card.dataset.index = index;
       main.append(card);
       card.classList.add("card");
       const h3 = document.createElement("h3");
       const p1 = document.createElement("p");
       const p2 = document.createElement("p");
-      card.append(h3, p1, p2);
+      const edit = document.createElement("i");
+      const remove = document.createElement("i");
+      //   remove
+      //   edit.setAttribute("id", allToDo[index].id);
+      //   remove.setAttribute("id", allToDo[index].id);
+      remove.onclick = () => {
+        allToDo.splice(card.dataset.index, 1);
+        localStorage.setItem("todos", JSON.stringify(allToDo));
+        event.target.closest(".card");
+        getAll();
+      };
+      edit.onclick = () => {
+        const item = {
+          title: h3.textContent,
+          content: p1.textContent,
+          time: p2.textContent,
+        };
+        allToDo.splice(card.dataset.index, 1,item);
+        localStorage.setItem("todos", JSON.stringify(allToDo));
+        event.target.closest(".card");
+        getAll();
+      };
+
+      const div = document.createElement("div");
+      div.style = "display: flex; justify-content: flex-end; gap: 10px";
+      div.append(edit, remove);
+      edit.classList.add("ri-pencil-fill");
+      remove.classList.add("ri-delete-bin-7-fill");
+      card.append(div, h3, p1, p2);
       h3.textContent = allToDo[index].title;
       p1.textContent = allToDo[index].content;
       p2.textContent = allToDo[index].time;
       p1.classList.add("p1");
       p2.classList.add("p2");
+      h3.setAttribute("contenteditable", true);
+      p1.setAttribute("contenteditable", true);
+      p2.setAttribute("contenteditable", true);
     }
   }
 }
