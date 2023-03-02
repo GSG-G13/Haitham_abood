@@ -1,0 +1,44 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --text-header-color : black;
+    --text-header-color : #777;
+}
+.Hidden {
+    Display: None;
+}
+.container{
+    margin: 25px;
+    background-color: #eff3f4;
+    border-radius: 18px;
+    height: 90vh;
+    padding: 15px;
+}
+header{
+    margin-bottom: 10px;
+    border: solid 2px #777;
+    border-radius: 15px;
+    padding: 10px;
+}
+main{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+.Add{
+    background-color: #777777a6;
+    border-radius: 12px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plus{
+    font-size: 70px;
+    cursor: pointer;
+}
