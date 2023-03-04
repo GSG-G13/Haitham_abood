@@ -1,3 +1,4 @@
+//select all HTML elements that are necessary.
 const plus = document.querySelector(".plus"),
   title_input = document.querySelector(".title"),
   content_input = document.querySelector(".content"),
@@ -5,13 +6,20 @@ const plus = document.querySelector(".plus"),
   add = document.querySelector(".button"),
   parent = document.querySelector(".parent"),
   main = document.querySelector(".cards");
-// ,
-
+//declare allTodo array to store all todos.
 let allTodo = [];
+// plus event is for toggle hidden class from the add todo form.
 plus.onclick = () => {
   plus.classList.toggle(`Hidden`);
   parent.classList.toggle(`Hidden`);
 };
+/*
+function getAll its responsible for show all todos,
+and its have 2 events inside it which are edit and delete todo,
+getAll function will create card "html" with todo information inside it,
+getAll will loop for all todos insde allTodo array and put that info (object)
+inside the card "html".
+*/
 function getAll() {
   const allToDo = JSON.parse(localStorage.getItem("todos"));
   if (allToDo) {
@@ -26,27 +34,42 @@ function getAll() {
       const p2 = document.createElement("p");
       const edit = document.createElement("i");
       const remove = document.createElement("i");
-      //   remove
-      //   edit.setAttribute("id", allToDo[index].id);
-      //   remove.setAttribute("id", allToDo[index].id);
+      /*
+      delete event will splice the todo from allToDo array,
+      then set the array again in localStorage,
+      last thing is recall getAll function again to see the changes.
+      */
       remove.onclick = () => {
         allToDo.splice(card.dataset.index, 1);
         localStorage.setItem("todos", JSON.stringify(allToDo));
-        event.target.closest(".card");
+        // event.target.closest(".card");
         getAll();
       };
+      /* 
+      edit event
+      */
       edit.onclick = () => {
+        //select the new edits of the todo,
         const item = {
           title: h3.textContent,
           content: p1.textContent,
           time: p2.textContent,
         };
-        allToDo.splice(card.dataset.index, 1,item);
+        /*
+        splice the todo from allToDo array, 
+        and add the new todo in place of the old one,
+        then set the array again in localStorage,
+        last thing is recall getAll function again to see the changes.
+         */
+        allToDo.splice(card.dataset.index, 1, item);
         localStorage.setItem("todos", JSON.stringify(allToDo));
-        event.target.closest(".card");
+        // event.target.closest(".card");
         getAll();
       };
-
+      /* 
+      the code below is for creating the card and put the todo data in it,
+      with some style for the card.
+      */
       const div = document.createElement("div");
       div.style = "display: flex; justify-content: flex-end; gap: 10px";
       div.append(edit, remove);
@@ -64,9 +87,17 @@ function getAll() {
     }
   }
 }
+// here we call the getAll function is the local storage have the todos key.
 if (JSON.parse(localStorage.getItem("todos"))) {
   getAll();
 }
+/*
+add even is for adding new todo into allTodo array,
+but first before adding into array,
+we will check for array in local storage first, 
+and add to it then set the array into local storage,
+after adding just clear the fields of the form.
+*/
 add.onclick = () => {
   const todo = {
     id: new Date(),
